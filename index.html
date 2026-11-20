@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A little company. A shared commitment. Focus with your dinosaur and make a refundable focus pact with a friend.">
+  <title>Focus · a little company</title>
+  <link rel="icon" href="assets/dino-standing.png"><link rel="stylesheet" href="style.css">
+  <script src="vendor/ethers.umd.min.js" defer></script>
+  <script src="contract-artifact.js" defer></script><script src="config.js" defer></script><script src="script.js" defer></script>
+</head>
+<body>
+<header><button id="brand" class="brand" aria-label="Focus home">focus<span>✦</span></button><div class="header-right"><span id="session-count">0 sessions today</span><button id="wallet-button" class="wallet-button">Connect wallet</button></div></header>
+<div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+<main>
+<section id="home" class="screen">
+  <p class="eyebrow">A LITTLE COMPANY. A SHARED COMMITMENT.</p>
+  <h1>What are we working on?</h1>
+  <form id="focus-form">
+    <label class="sr-only" for="task">Your task</label><input id="task" placeholder="Name your task…" maxlength="120" required autocomplete="off">
+    <div class="durations" aria-label="Session duration"><button type="button" data-seconds="900" aria-pressed="false">15 min</button><button type="button" data-seconds="1500" aria-pressed="true">25 min</button><button type="button" data-seconds="2700" aria-pressed="false">45 min</button><button type="button" data-seconds="10" aria-pressed="false" class="demo-duration">10 sec demo</button></div>
+    <button class="primary wide" type="submit">Start solo session <span aria-hidden="true">↗</span></button>
+  </form>
+  <button id="open-pact" class="text-button buddy-link">＋ Focus with a buddy</button>
+  <p class="muted home-note">Your task stays on this device. Your companion stays with you.</p>
+  <img class="dino dino-home" src="assets/dino-standing.png" alt="A cheerful yellow dinosaur companion">
+</section>
+<section id="pact-setup" class="screen" hidden>
+  <p class="eyebrow">SHOW UP TOGETHER</p><h2>A little pact.</h2>
+  <p class="intro">Invite a friend. Set aside a small test deposit.<br>Focus together, then get your deposits back.</p>
+  <div class="mode-switch"><button data-mode="live" aria-pressed="true">Sepolia testnet</button><button data-mode="preview" aria-pressed="false">Local preview</button></div>
+  <p id="mode-description" class="muted">Real testnet transactions. Test ETH has no monetary value.</p>
+  <form id="create-form" class="panel">
+    <label for="pact-task">What are you working on?</label><input id="pact-task" maxlength="120" placeholder="Finish my essay…" required>
+    <div class="form-row"><div><label for="pact-duration">Focus time</label><select id="pact-duration"><option value="10">10 seconds · demo</option><option value="900">15 minutes</option><option value="1500" selected>25 minutes</option><option value="2700">45 minutes</option></select></div><div><label for="pact-stake">Deposit per person</label><select id="pact-stake"><option value="0.0001">0.0001 test ETH</option><option value="0.001">0.001 test ETH</option></select></div></div>
+    <label for="buddy-address" id="buddy-label">Your buddy’s wallet address</label><input id="buddy-address" placeholder="0x…" autocomplete="off" spellcheck="false">
+    <details class="rules"><summary>How the pact works</summary><ul><li>Only the wallet you invite can join. The creator can cancel before it joins.</li><li>The timer starts when your buddy’s matching deposit confirms onchain.</li><li>After the timer, both report completion. This relies on honesty; the app does not verify your work.</li><li>Both confirmations unlock both deposits. Claiming your deposit is a separate transaction.</li><li>If a buddy never joins, refund is available after 24 hours (or cancel sooner). If someone does not confirm, both deposits can be unlocked 10 minutes after the session ends.</li><li>No forfeitures or prizes. Testnet gas is separate and is not refunded.</li></ul></details>
+    <button id="create-pact" class="primary wide" type="submit">Create focus pact</button>
+  </form>
+  <details id="network-setup" class="network-setup"><summary>First time? Set up the testnet contract</summary><p>Connect a browser wallet on Sepolia with free test ETH. Deploy once, then share the same contract with your buddy. Never use real money.</p><button id="deploy-contract" class="secondary">Deploy testnet contract</button><label for="contract-address">Or use an existing FocusPact address</label><div class="input-action"><input id="contract-address" placeholder="0x…" autocomplete="off" spellcheck="false"><button id="save-contract" class="secondary">Use address</button></div><p id="contract-status" class="muted">No contract configured.</p></details>
+  <button class="text-button" data-home>Back home</button>
+</section>
+<section id="pact-room" class="screen" hidden>
+  <p id="room-eyebrow" class="eyebrow">YOUR SHARED COMMITMENT</p><h2 id="room-title">Waiting for your buddy.</h2>
+  <p id="room-task" class="intro"></p><p id="preview-banner" class="preview-banner" hidden>LOCAL PREVIEW · simulated participants and funds · no blockchain transactions</p>
+  <div class="panel room-panel"><div class="room-meta"><span id="pact-id"></span><a id="contract-link" target="_blank" rel="noopener noreferrer" hidden>View contract ↗</a></div>
+    <div class="participants"><div><span class="person-dot">✦</span><strong>Creator</strong><span id="creator-address" class="address"></span><span id="creator-status" class="muted"></span></div><div><span class="person-dot">✧</span><strong>Buddy</strong><span id="room-buddy-address" class="address"></span><span id="buddy-status" class="muted"></span></div></div>
+    <p id="room-status" class="room-status" aria-live="polite"></p><p id="room-countdown" class="room-countdown"></p>
+    <div id="invite-area"><label for="invite-link">Send this link to your invited buddy</label><div class="input-action"><input id="invite-link" readonly><button id="copy-invite" class="secondary">Copy</button></div><p id="invite-note" class="muted">Your personal task is not included in this link.</p></div>
+    <div class="room-actions"><button id="join-pact" class="primary" hidden>Join & deposit</button><button id="view-session" class="primary" hidden>Go to focus session</button><button id="confirm-pact" class="primary" hidden>Confirm my completion</button><button id="cancel-pact" class="secondary" hidden>Cancel pact & unlock deposit</button><button id="refund-pact" class="secondary" hidden>Unlock timeout refunds</button><button id="withdraw-pact" class="primary" hidden>Claim my deposit</button><button id="preview-join" class="secondary" hidden>Simulate buddy joining</button><button id="preview-confirm" class="secondary" hidden>Simulate buddy confirmation</button></div>
+    <p id="claimable" class="muted"></p><a id="last-transaction" class="transaction" target="_blank" rel="noopener noreferrer" hidden></a>
+  </div><img class="room-dino" src="assets/dino-standing.png" alt="Your dinosaur is ready to focus"><button class="text-button" data-home>Back home</button>
+</section>
+<section id="focusing" class="screen" hidden>
+  <p id="focus-mode" class="eyebrow">YOUR QUIET MOMENT</p><h2 id="active-task"></h2>
+  <div class="timer"><svg viewBox="0 0 200 200" aria-hidden="true"><circle class="track" cx="100" cy="100" r="92"/><circle id="progress" cx="100" cy="100" r="92" pathLength="100"/></svg><div class="timer-content"><p>TIME TO FOCUS</p><span id="countdown">25:00</span></div></div>
+  <p id="buddy-presence" class="muted" hidden>✦ A shared session. A little company.</p><button class="text-button" id="end-session">End session</button><img class="dino dino-focus" src="assets/dino-resting.png" alt="Your dinosaur resting while you focus">
+</section>
+<section id="complete" class="screen" hidden>
+  <p class="eyebrow">YOU SHOWED UP</p><h2>A little more done.</h2><p id="recap" class="intro"></p><img class="dino-celebrating" src="assets/dino-celebrating.png" alt="Your dinosaur celebrating"><h3>Did you finish what you planned?</h3>
+  <div class="completion-actions"><button class="primary" data-outcome="finished">Yes, finished!</button><button class="secondary" data-outcome="progress">Made progress</button></div><p id="feedback" role="status"></p><button id="completion-pact" class="secondary" hidden>View pact & deposit status</button><br><button class="text-button" id="back-home">Back home</button>
+</section>
+</main><footer><span>Small steps count.</span><button id="resume-pact" class="text-button" hidden>Return to my pact ↗</button><span class="testnet-label">Pacts use Sepolia test ETH</span></footer>
+</body></html>

@@ -1,0 +1,17 @@
+{
+  "name": "focus-companion",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A dinosaur focus companion with refundable two-person testnet pacts.",
+  "scripts": {
+    "start": "node scripts/serve.cjs",
+    "build": "node scripts/build.cjs",
+    "test": "node tests/contract.cjs",
+    "test:ui": "node tests/ui-logic.cjs"
+  },
+  "devDependencies": {
+    "ethers": "6.16.0",
+    "solc": "0.8.30",
+    "ganache": "7.9.2"
+  }
+}
