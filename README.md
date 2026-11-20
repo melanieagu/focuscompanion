@@ -2,7 +2,11 @@
 
 A little dinosaur keeps you company while you work. Solo sessions are free of wallet prompts. For shared accountability, two friends can put equal **Sepolia test ETH** deposits into a refundable focus pact, run a shared session, report completion, and reclaim their deposits.
 
-**Prototype status:** application code and Solidity source are included. Public testnet deployment is not configured. Read [START_HERE.md](START_HERE.md) for setup, validation, and submission steps.
+**Prototype status:** Live on GitHub Pages with a deployed Ethereum Sepolia contract. A two-wallet test completed pact creation, joining, both completion confirmations, and both deposit withdrawals.
+
+- Live app: https://melanieagu.github.io/focuscompanion/
+- Repository: https://github.com/melanieagu/focuscompanion
+- Sepolia contract: https://sepolia.etherscan.io/address/0x9b4eeB005718DA8BDcE5fEA53DF9148bBBE56dd3
 
 ## Run
 
@@ -72,19 +76,23 @@ Wallet addresses, deposit amounts, durations, timestamps, confirmations, states,
 - Browser tabs may throttle rendering. The countdown derives from an absolute end time rather than decrementing on every tick. Solo sessions and live pact references recover after reload.
 - Gifting, custom avatars, streaming, productivity surveillance, NFTs, and Gemini integration are not included.
 
-## Deployment record — complete after deploying
+## Deployment record
 
 - Chain: Ethereum Sepolia (11155111)
-- Contract address: **NOT DEPLOYED — add your address here**
-- Deployment transaction: **Add actual explorer link**
-- Public app: **Add actual URL**
-- Public repository: **Add actual URL**
+- Contract: 0x9b4eeB005718DA8BDcE5fEA53DF9148bBBE56dd3
+- Explorer: https://sepolia.etherscan.io/address/0x9b4eeB005718DA8BDcE5fEA53DF9148bBBE56dd3
+- Public app: https://melanieagu.github.io/focuscompanion/
+- Repository: https://github.com/melanieagu/focuscompanion
 
-This targets Consumer Applications, with **no chain award or sponsor bounty claimed** by default. Sepolia is not Solana or Arc.
+Main track: Consumer Applications.
 
 ## Validation record
 
-In the build workspace: JS syntax checks and all six app-state test groups passed. A graphical browser could not launch under the workspace restrictions. npm package downloads were blocked, so **Solidity compilation/integration execution and wallet integration remain unverified here**. Run the included build and tests locally, then exercise both wallets on the public testnet before submission. Do not claim unrun tests passed.
+- Contract build completed successfully.
+- All 11 contract integration test groups passed locally.
+- All 6 app-state test groups passed locally.
+- Sepolia pact #1 completed using two wallet accounts: create, join, both completion confirmations, and both deposit withdrawals.
+- The published app’s solo countdown and check-in were exercised, and the hosted pact page successfully loaded the settled Sepolia pact.
 
 ## Useful official references
 
